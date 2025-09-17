@@ -15,7 +15,7 @@ API pour récupérer les horaires du métro (prochain passage et dernier passage
 Clone le repo et installe les dépendances :
 
 ```bash
-git clone <ton-repo>
+git clone https://github.com/VasileLeBoss/Express-Api.git
 cd apiexpress
 npm install
 ```
