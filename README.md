@@ -1,5 +1,5 @@
 
-# Metro API 🚇
+# Metro API 
 
 [![Docker](https://img.shields.io/badge/docker-ready-blue)](https://www.docker.com/)
 [![Tests Unitaires](https://img.shields.io/badge/tests-unit-green)]()
