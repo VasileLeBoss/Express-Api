@@ -4,49 +4,47 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const { Pool } = require("pg");
-const PORT = process.env.PORT || 3000;
+
 const HEADWAY_MIN = parseInt(process.env.HEADWAY_MIN) || 3;
 const LAST_WINDOW_START = process.env.LAST_WINDOW_START || "00:45";
 const SERVICE_END = process.env.SERVICE_END || "01:15";
 const SERVICE_START = process.env.SERVICE_START || "05:30";
 
-
+// Config DB
 const dbPool = new Pool({
-    host: process.env.POSTGRES_HOST || "db",
-    port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
-    user: process.env.POSTGRES_USER || "user",
-    password: process.env.POSTGRES_PASSWORD || "password",
-    database: process.env.POSTGRES_DB || "myapp",
+  host: process.env.POSTGRES_HOST || "db",
+  port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
+  user: process.env.POSTGRES_USER || "user",
+  password: process.env.POSTGRES_PASSWORD || "password",
+  database: process.env.POSTGRES_DB || "myapp",
 });
 
-// Parse time string in format "HH:MM" to hours and minutes
+// Parse time
 function parseTimeString(timeStr) {
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    return { hours, minutes };
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return { hours, minutes };
 }
 
-
-
-// Service boundaries
 const lastWindowStart = parseTimeString(LAST_WINDOW_START);
 const serviceEnd = parseTimeString(SERVICE_END);
 const serviceStart = parseTimeString(SERVICE_START);
 
-// Add CORS middleware
+
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    res.header(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(200);
-    }
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
+
+app.use((req, res, next) => {
+  const t0 = Date.now();
+  res.on("finish", () => {
+    const duration = Date.now() - t0;
+    console.log(`${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`);
+  });
+  next();
 });
 
 app.use((req, res, next) => {
@@ -214,6 +212,8 @@ app.use((req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
+
+module.exports = { app, dbPool };
