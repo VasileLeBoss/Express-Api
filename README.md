@@ -43,7 +43,7 @@ POSTGRES_PORT=5432
 Lancer tous les services :
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 - API → [http://localhost:5000](http://localhost:5000)  
@@ -124,7 +124,7 @@ PASS  __tests__/utils/nextArrival.js
 Depuis Docker :
 
 ```bash
-docker-compose exec api npm test
+docker compose exec api npm test
 ```
 
 Sortie attendue :
