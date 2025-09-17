@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: Dernier Métro API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  service:
+                    type: string
+
+  /next-metro:
+    get:
+      summary: Prochain passage de métro
+      parameters:
+        - in: query
+          name: station
+          schema:
+            type: string
+          required: true
+          description: Nom de la station
+      responses:
+        "200":
+          description: Heure d'arrivée estimée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  station:
+                    type: string
+                  line:
+                    type: string
+                  headwayMin:
+                    type: integer
+                  nextArrival:
+                    type: string
+                    example: "12:34"
+        "400":
+          description: Paramètre manquant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /last-metro:
+    get:
+      summary: Dernier passage de métro pour une station donnée
+      parameters:
+        - in: query
+          name: station
+          schema:
+            type: string
+          required: true
+          description: Nom de la station (insensible à la casse)
+      responses:
+        "200":
+          description: Dernier métro trouvé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  station:
+                    type: string
+                  lastMetro:
+                    type: string
+                    example: "01:25"
+                  line:
+                    type: string
+                  tz:
+                    type: string
+                    example: "Europe/Paris"
+        "400":
+          description: Paramètre manquant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "404":
+          description: Station inconnue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Erreur interne
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
