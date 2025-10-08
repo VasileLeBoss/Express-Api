@@ -5,6 +5,7 @@
 [![Tests Unitaires](https://img.shields.io/badge/tests-unit-green)]()
 [![Tests Intégration](https://img.shields.io/badge/tests-integration-yellow)]()
 [![Swagger](https://img.shields.io/badge/swagger-ui-blue)](http://localhost:8080)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)]()
 
 API pour récupérer les horaires du métro (prochain passage et dernier passage) avec PostgreSQL comme backend.  
 
