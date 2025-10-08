@@ -4,9 +4,18 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:5000
+
+tags:
+  - name: Health
+    description: Vérification de l'état du service
+  - name: Metro
+    description: Horaires et informations des métros
+
 paths:
   /health:
     get:
+      tags:
+        - Health
       summary: Health check
       responses:
         "200":
@@ -23,6 +32,8 @@ paths:
 
   /next-metro:
     get:
+      tags:
+        - Metro
       summary: Prochain passage de métro
       parameters:
         - in: query
@@ -60,6 +71,8 @@ paths:
 
   /last-metro:
     get:
+      tags:
+        - Metro
       summary: Dernier passage de métro pour une station donnée
       parameters:
         - in: query

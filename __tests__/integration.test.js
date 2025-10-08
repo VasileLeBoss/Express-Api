@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { app } = require("../server"); // <- important
+const { app } = require("../server"); 
 
 describe("Integration tests - last-metro & next-metro", () => {
   // /last-metro

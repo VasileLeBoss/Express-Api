@@ -1,10 +1,10 @@
-const { formatNextArrival } = require("./utils/nextArrival");
+const { formatNextArrival } = require("../utils/nextArrival");
 
 describe("formatNextArrival", () => {
-  const fixedDate = new Date("2025-09-17T12:00:00"); // heure locale
+  const fixedDate = new Date("2025-09-17T12:00:00");
 
   beforeAll(() => {
-    jest.useFakeTimers("modern");
+    jest.useFakeTimers();
     jest.setSystemTime(fixedDate);
   });
 
