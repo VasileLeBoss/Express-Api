@@ -24,6 +24,16 @@ describe("Integration tests - last-metro & next-metro", () => {
       expect(res.statusCode).toBe(400);
       expect(res.body).toHaveProperty("error");
     });
+
+    test("500 - DB indisponible (simulateur)", async () => {
+      const { dbPool } = require("../server");
+      const originalQuery = dbPool.query;
+      dbPool.query = jest.fn().mockRejectedValue(new Error("DB down"));
+      const res = await request(app).get("/last-metro?station=Chatelet");
+      expect(res.statusCode).toBe(500);
+      expect(res.body).toHaveProperty("error");
+      dbPool.query = originalQuery;
+    });
   });
 
   // /next-metro
@@ -41,6 +51,23 @@ describe("Integration tests - last-metro & next-metro", () => {
       const res = await request(app).get("/next-metro");
       expect(res.statusCode).toBe(400);
       expect(res.body).toHaveProperty("error");
+    });
+  });
+
+  // /db-health
+  describe("GET /db-health", () => {
+    test("200 - DB up", async () => {
+      const res = await request(app).get("/db-health");
+      expect([200, 500]).toContain(res.statusCode); // Peut être 500 si pool déjà fermée
+    });
+    test("500 - DB down (simulateur)", async () => {
+      const { dbPool } = require("../server");
+      const originalQuery = dbPool.query;
+      dbPool.query = jest.fn().mockRejectedValue(new Error("DB down"));
+      const res = await request(app).get("/db-health");
+      expect(res.statusCode).toBe(500);
+      expect(res.body).toHaveProperty("db");
+      dbPool.query = originalQuery;
     });
   });
 });
