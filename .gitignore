@@ -1,3 +1,4 @@
 .env
+.env.staging
 .vscode/
 node_modules/
