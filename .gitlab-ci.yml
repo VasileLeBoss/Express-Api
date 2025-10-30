@@ -1,9 +1,9 @@
 stages:
   - lint
   - test
+  - security
 
 variables:
-
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
 
 cache:
@@ -37,6 +37,29 @@ test:
   script:
     - npm ci
     - npm run test
+  only:
+    - merge_requests
+    - branches
+
+# ---- SECURITY SCAN : Dépendances npm ----
+security:npm-audit:
+  stage: security
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm audit --audit-level=moderate
+  allow_failure: true 
+  only:
+    - merge_requests
+    - branches
+
+# ---- SECURITY SCAN : Image Docker ----
+security:trivy:
+  stage: security
+  image: aquasec/trivy:latest
+  script:
+    - trivy image --severity HIGH,CRITICAL $CI_REGISTRY_IMAGE:latest || true
+  allow_failure: true
   only:
     - merge_requests
     - branches
