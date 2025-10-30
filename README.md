@@ -6,6 +6,8 @@
 [![Swagger](https://img.shields.io/badge/swagger-ui-blue)](http://localhost:8080)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)]()
 [![GitLab pipeline status](https://img.shields.io/gitlab/pipeline-status/VasileLeBoss/apiexpress?branch=master&label=pipeline&logo=gitlab)](https://gitlab.com/VasileLeBoss/apiexpress/-/pipelines)
+[![Security Scan (npm)](https://img.shields.io/badge/security-npm%20audit-orange?logo=npm)]()
+[![Security Scan (Trivy)](https://img.shields.io/badge/security-trivy-blue?logo=trivy)]()
 
 API pour récupérer les horaires du métro (prochain passage et dernier passage) avec PostgreSQL comme backend.
 
@@ -152,7 +154,28 @@ PASS  __tests__/integration.test.js
 
 ---
 
-## 6. Livrables
+## 6. Scans de sécurité 🔒
+
+Deux niveaux de vérification sont intégrés dans la CI/CD :
+
+| Outil        | Objectif                            | Niveau | Statut |
+|---------------|-------------------------------------|--------|---------|
+| **npm audit** | Analyse des dépendances Node.js     | Moyen  | ✅ |
+| **Trivy**     | Scan de l’image Docker (vulnérabilités système) | Haut / Critique | ✅ |
+
+### 🧪 Lancer un scan localement
+
+```bash
+
+npm audit --audit-level=moderate
+
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image your-image-name:latest
+
+```
+
+---
+
+## 7. Livrables
 
 | #   | Branch                      | Contenu attendu                                                |
 | --- | --------------------------- | -------------------------------------------------------------- |
@@ -160,10 +183,14 @@ PASS  __tests__/integration.test.js
 | 05  | `feature/swagger`           | OpenAPI valide + Swagger à jour                                |
 | 06  | `feature/unit-tests`        | Sortie `npm test` (unitaires)                                  |
 | 07  | `feature/integration-tests` | Sortie `npm test` (intégration) avec DB réelle                 |
+| 08  | `feature/feature-pipeline`  | Pipeline CI/CD complet (lint, tests, sécurité, pipeline badge) |
+| 09  | `feature/feature-pipeline`  | Pipeline CI/CD complet (lint, tests, sécurité, pipeline badge) |
+| 10  | `feature/scans-de-sécurité` | Scan de sécurité `npm audit` + `Trivy` dans la pipeline CI/CD  |
+
 
 ---
 
-## 7. Notes
+## 8. Notes
 
 - Tous les horaires sont en **Europe/Paris**
 - Le service est fermé entre `SERVICE_END` et `SERVICE_START`
