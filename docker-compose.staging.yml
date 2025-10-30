@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  api:
+    image: ghcr.io/vasileleboss/apiexpress:latest 
+    container_name: apiexpress-staging
+    environment:
+      - NODE_ENV=staging
+      - PORT=5000
+      - PGHOST=db-staging
+      - PGUSER=user
+      - PGPASSWORD=password
+      - PGDATABASE=apiexpress_staging
+      - PGPORT=5432
+      - HEADWAY_MIN=4
+      - SERVICE_START=05:35
+      - SERVICE_END=01:25
+      - LAST_WINDOW_START=00:50
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db-staging
+    restart: unless-stopped
+
+  db-staging:
+    image: postgres:15
+    container_name: postgres-staging
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=apiexpress_staging
+    volumes:
+      - pgdata-staging:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata-staging:
