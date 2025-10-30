@@ -6,7 +6,6 @@
 [![Swagger](https://img.shields.io/badge/swagger-ui-blue)](http://localhost:8080)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)]()
 [![GitLab pipeline status](https://img.shields.io/gitlab/pipeline-status/VasileLeBoss/apiexpress?branch=master&label=pipeline&logo=gitlab)](https://gitlab.com/VasileLeBoss/apiexpress/-/pipelines)
-[![Pipeline Status](https://gitlab.com/VasileLeBoss/apiexpress/badges/master/pipeline.svg?refresh=1)](https://gitlab.com/VasileLeBoss/apiexpress/-/pipelines)
 
 API pour récupérer les horaires du métro (prochain passage et dernier passage) avec PostgreSQL comme backend.
 
