@@ -1,7 +1,7 @@
-const { formatNextArrival } = require("../utils/nextArrival");
+const { formatNextArrival } = require('../utils/nextArrival');
 
-describe("formatNextArrival", () => {
-  const fixedDate = new Date("2025-09-17T12:00:00");
+describe('formatNextArrival', () => {
+  const fixedDate = new Date('2025-09-17T12:00:00');
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -12,17 +12,17 @@ describe("formatNextArrival", () => {
     jest.useRealTimers();
   });
 
-  test("headway = 3 → +3 minutes", () => {
-    expect(formatNextArrival(fixedDate, 3)).toBe("12:03");
+  test('headway = 3 → +3 minutes', () => {
+    expect(formatNextArrival(fixedDate, 3)).toBe('12:03');
   });
 
-  test("valeur par défaut → même résultat que headway = 3", () => {
-    expect(formatNextArrival(fixedDate)).toBe("12:03");
+  test('valeur par défaut → même résultat que headway = 3', () => {
+    expect(formatNextArrival(fixedDate)).toBe('12:03');
   });
 
-  test("headway invalide (≤0) → retourne null", () => {
+  test('headway invalide (≤0) → retourne null', () => {
     expect(formatNextArrival(fixedDate, 0)).toBeNull();
     expect(formatNextArrival(fixedDate, -5)).toBeNull();
-    expect(formatNextArrival(fixedDate, "abc")).toBeNull();
+    expect(formatNextArrival(fixedDate, 'abc')).toBeNull();
   });
 });

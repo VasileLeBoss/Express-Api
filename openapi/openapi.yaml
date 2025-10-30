@@ -18,7 +18,7 @@ paths:
         - Health
       summary: Health check
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -43,7 +43,7 @@ paths:
           required: true
           description: Nom de la station
       responses:
-        "200":
+        '200':
           description: Heure d'arrivée estimée
           content:
             application/json:
@@ -58,8 +58,8 @@ paths:
                     type: integer
                   nextArrival:
                     type: string
-                    example: "12:34"
-        "400":
+                    example: '12:34'
+        '400':
           description: Paramètre manquant
           content:
             application/json:
@@ -82,7 +82,7 @@ paths:
           required: true
           description: Nom de la station (insensible à la casse)
       responses:
-        "200":
+        '200':
           description: Dernier métro trouvé
           content:
             application/json:
@@ -93,13 +93,13 @@ paths:
                     type: string
                   lastMetro:
                     type: string
-                    example: "01:25"
+                    example: '01:25'
                   line:
                     type: string
                   tz:
                     type: string
-                    example: "Europe/Paris"
-        "400":
+                    example: 'Europe/Paris'
+        '400':
           description: Paramètre manquant
           content:
             application/json:
@@ -108,7 +108,7 @@ paths:
                 properties:
                   error:
                     type: string
-        "404":
+        '404':
           description: Station inconnue
           content:
             application/json:
@@ -117,7 +117,7 @@ paths:
                 properties:
                   error:
                     type: string
-        "500":
+        '500':
           description: Erreur interne
           content:
             application/json:

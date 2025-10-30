@@ -1,5 +1,4 @@
-
-# Metro API 
+# Metro API
 
 [![Docker](https://img.shields.io/badge/docker-ready-blue)](https://www.docker.com/)
 [![Tests Unitaires](https://img.shields.io/badge/tests-unit-green)]()
@@ -7,7 +6,7 @@
 [![Swagger](https://img.shields.io/badge/swagger-ui-blue)](http://localhost:8080)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)]()
 
-API pour récupérer les horaires du métro (prochain passage et dernier passage) avec PostgreSQL comme backend.  
+API pour récupérer les horaires du métro (prochain passage et dernier passage) avec PostgreSQL comme backend.
 
 ---
 
@@ -47,7 +46,7 @@ Lancer tous les services :
 docker compose up -d --build
 ```
 
-- API → [http://localhost:5000](http://localhost:5000)  
+- API → [http://localhost:5000](http://localhost:5000)
 - Swagger UI → [http://localhost:8080](http://localhost:8080)
 
 ---
@@ -143,8 +142,8 @@ PASS  __tests__/integration.test.js
 
 ## 5. OpenAPI + Swagger
 
-- OpenAPI YAML → `./openapi/openapi.yaml`  
-- Swagger UI → [http://localhost:8080](http://localhost:8080)  
+- OpenAPI YAML → `./openapi/openapi.yaml`
+- Swagger UI → [http://localhost:8080](http://localhost:8080)
 - Validation OpenAPI : via [Swagger Editor](https://editor.swagger.io/) ou `swagger-cli validate openapi.yaml`
 
 **Capture Swagger UI :**  
@@ -154,17 +153,17 @@ PASS  __tests__/integration.test.js
 
 ## 6. Livrables
 
-| # | Branch | Contenu attendu |
-|---|--------|----------------|
-| 04 | `feature/db-read` | Capture d’écran `GET /last-metro` et `GET /next-metro` avec DB |
-| 05 | `feature/swagger` | OpenAPI valide + Swagger à jour |
-| 06 | `feature/unit-tests` | Sortie `npm test` (unitaires) |
-| 07 | `feature/integration-tests` | Sortie `npm test` (intégration) avec DB réelle |
+| #   | Branch                      | Contenu attendu                                                |
+| --- | --------------------------- | -------------------------------------------------------------- |
+| 04  | `feature/db-read`           | Capture d’écran `GET /last-metro` et `GET /next-metro` avec DB |
+| 05  | `feature/swagger`           | OpenAPI valide + Swagger à jour                                |
+| 06  | `feature/unit-tests`        | Sortie `npm test` (unitaires)                                  |
+| 07  | `feature/integration-tests` | Sortie `npm test` (intégration) avec DB réelle                 |
 
 ---
 
 ## 7. Notes
 
-- Tous les horaires sont en **Europe/Paris**  
-- Le service est fermé entre `SERVICE_END` et `SERVICE_START`  
+- Tous les horaires sont en **Europe/Paris**
+- Le service est fermé entre `SERVICE_END` et `SERVICE_START`
 - Les tests unitaires ne nécessitent pas de DB, les tests d’intégration utilisent la DB réelle.

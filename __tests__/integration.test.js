@@ -1,72 +1,74 @@
-const request = require("supertest");
-const { app } = require("../server"); 
+jest.mock('pg');
 
-describe("Integration tests - last-metro & next-metro", () => {
+const request = require('supertest');
+const { app } = require('../server');
+
+describe('Integration tests - last-metro & next-metro', () => {
   // /last-metro
-  describe("GET /last-metro", () => {
-    test("200 - station connue, insensible à la casse", async () => {
-      const res = await request(app).get("/last-metro?station=Chatelet");
+  describe('GET /last-metro', () => {
+    test('200 - station connue, insensible à la casse', async () => {
+      const res = await request(app).get('/last-metro?station=Chatelet');
       expect(res.statusCode).toBe(200);
-      expect(res.body).toHaveProperty("station");
-      expect(res.body).toHaveProperty("lastMetro");
-      expect(res.body).toHaveProperty("line");
-      expect(res.body).toHaveProperty("tz");
+      expect(res.body).toHaveProperty('station');
+      expect(res.body).toHaveProperty('lastMetro');
+      expect(res.body).toHaveProperty('line');
+      expect(res.body).toHaveProperty('tz');
     });
 
-    test("404 - station inconnue", async () => {
-      const res = await request(app).get("/last-metro?station=Inconnue");
+    test('404 - station inconnue', async () => {
+      const res = await request(app).get('/last-metro?station=Inconnue');
       expect(res.statusCode).toBe(404);
-      expect(res.body).toHaveProperty("error");
+      expect(res.body).toHaveProperty('error');
     });
 
-    test("400 - pas de station", async () => {
-      const res = await request(app).get("/last-metro");
+    test('400 - pas de station', async () => {
+      const res = await request(app).get('/last-metro');
       expect(res.statusCode).toBe(400);
-      expect(res.body).toHaveProperty("error");
+      expect(res.body).toHaveProperty('error');
     });
 
-    test("500 - DB indisponible (simulateur)", async () => {
-      const { dbPool } = require("../server");
+    test('500 - DB indisponible (simulateur)', async () => {
+      const { dbPool } = require('../server');
       const originalQuery = dbPool.query;
-      dbPool.query = jest.fn().mockRejectedValue(new Error("DB down"));
-      const res = await request(app).get("/last-metro?station=Chatelet");
+      dbPool.query = jest.fn().mockRejectedValue(new Error('DB down'));
+      const res = await request(app).get('/last-metro?station=Chatelet');
       expect(res.statusCode).toBe(500);
-      expect(res.body).toHaveProperty("error");
+      expect(res.body).toHaveProperty('error');
       dbPool.query = originalQuery;
     });
   });
 
   // /next-metro
-  describe("GET /next-metro", () => {
-    test("200 - station connue", async () => {
-      const res = await request(app).get("/next-metro?station=Chatelet");
+  describe('GET /next-metro', () => {
+    test('200 - station connue', async () => {
+      const res = await request(app).get('/next-metro?station=Chatelet');
       expect(res.statusCode).toBe(200);
-      expect(res.body).toHaveProperty("station");
-      expect(res.body).toHaveProperty("line");
-      expect(res.body).toHaveProperty("nextArrival");
-      expect(res.body.nextArrival).toMatch(/^\d{2}:\d{2}$/); 
+      expect(res.body).toHaveProperty('station');
+      expect(res.body).toHaveProperty('line');
+      expect(res.body).toHaveProperty('nextArrival');
+      expect(res.body.nextArrival).toMatch(/^\d{2}:\d{2}$/);
     });
 
-    test("400 - pas de station", async () => {
-      const res = await request(app).get("/next-metro");
+    test('400 - pas de station', async () => {
+      const res = await request(app).get('/next-metro');
       expect(res.statusCode).toBe(400);
-      expect(res.body).toHaveProperty("error");
+      expect(res.body).toHaveProperty('error');
     });
   });
 
   // /db-health
-  describe("GET /db-health", () => {
-    test("200 - DB up", async () => {
-      const res = await request(app).get("/db-health");
+  describe('GET /db-health', () => {
+    test('200 - DB up', async () => {
+      const res = await request(app).get('/db-health');
       expect([200, 500]).toContain(res.statusCode); // Peut être 500 si pool déjà fermée
     });
-    test("500 - DB down (simulateur)", async () => {
-      const { dbPool } = require("../server");
+    test('500 - DB down (simulateur)', async () => {
+      const { dbPool } = require('../server');
       const originalQuery = dbPool.query;
-      dbPool.query = jest.fn().mockRejectedValue(new Error("DB down"));
-      const res = await request(app).get("/db-health");
+      dbPool.query = jest.fn().mockRejectedValue(new Error('DB down'));
+      const res = await request(app).get('/db-health');
       expect(res.statusCode).toBe(500);
-      expect(res.body).toHaveProperty("db");
+      expect(res.body).toHaveProperty('db');
       dbPool.query = originalQuery;
     });
   });
