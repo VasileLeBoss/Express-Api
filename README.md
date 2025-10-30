@@ -154,7 +154,7 @@ PASS  __tests__/integration.test.js
 
 ---
 
-## 6. Scans de sécurité 🔒
+## 6. Scans de sécurité 
 
 Deux niveaux de vérification sont intégrés dans la CI/CD :
 
@@ -163,7 +163,7 @@ Deux niveaux de vérification sont intégrés dans la CI/CD :
 | **npm audit** | Analyse des dépendances Node.js     | Moyen  | ✅ |
 | **Trivy**     | Scan de l’image Docker (vulnérabilités système) | Haut / Critique | ✅ |
 
-### 🧪 Lancer un scan localement
+### Lancer un scan localement
 
 ```bash
 
@@ -175,7 +175,61 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image
 
 ---
 
-## 7. Livrables
+
+## 7. Déploiement Staging
+
+
+### Démarrer le staging
+
+```bash
+docker compose -f docker-compose.staging.yml up -d
+```
+
+
+### Vérifier le statut de l'API
+
+```bash
+curl http://localhost:5000/health
+```
+
+### Réponse attendue
+
+```json
+{
+  "status": "ok",
+}
+```
+
+
+### Tester une route métier
+
+```bash
+curl "http://localhost:5000/last-metro?station=République"
+```
+
+### Réponse attendue
+
+```json
+{
+  "station": "République",
+  "lastMetro": "01:25",
+  "line": "M3",
+  "tz": "Europe/Paris"
+}
+```
+
+### Consulter les logs
+
+```bash
+docker compose -f docker-compose.staging.yml logs -f api
+```
+
+---
+
+
+
+
+## 8. Livrables
 
 | #   | Branch                      | Contenu attendu                                                |
 | --- | --------------------------- | -------------------------------------------------------------- |
@@ -186,11 +240,12 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image
 | 08  | `feature/feature-pipeline`  | Pipeline CI/CD complet (lint, tests, sécurité, pipeline badge) |
 | 09  | `feature/feature-pipeline`  | Pipeline CI/CD complet (lint, tests, sécurité, pipeline badge) |
 | 10  | `feature/scans-de-sécurité` | Scan de sécurité `npm audit` + `Trivy` dans la pipeline CI/CD  |
+| 11  | `feature/déploiement-staging` |  Fichier `docker-compose.staging.yml`, déploiement avec image du registry, smoke tests, logs  |
 
 
 ---
 
-## 8. Notes
+## 9. Notes
 
 - Tous les horaires sont en **Europe/Paris**
 - Le service est fermé entre `SERVICE_END` et `SERVICE_START`
