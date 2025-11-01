@@ -15,7 +15,7 @@ API pour récupérer les horaires du métro (prochain passage et dernier passage
 
 URL
 ```url
-https://express-api-1-rccp.onrender.com
+https://express-api-1-rccp.onrender.com/health/
 ```
 
 Swagger
