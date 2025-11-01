@@ -2,6 +2,14 @@
 
 const express = require('express');
 const app = express();
+
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./openapi/openapi.yaml');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+console.log('✅ Swagger available at /api-docs');
+
 require('dotenv').config();
 const { Pool } = require('pg');
 
